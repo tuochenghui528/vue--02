@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>条件渲染</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 
+        条件渲染：
+            1.v-if
+                写法：
+                    (1).v-if="表达式"
+                    (2).v-else-if="表达式"
+                    (3).v-else="表达式"
+                适用于：切换频率低的场景
+                特点：不展示DOM元素直接被移除
+                注意：v-if可以和v-else-if、v-else一起使用，但要求结构不能被打断
+            2.v-show
+                写法：v-show="表达式"
+                适用于：切换频率较高的场景
+                特点：不展示的DOM元素不被移除，仅仅是使用样式隐藏
+            3.备注：使用v-if时，元素可能无法获取到，而使用v-show的时候一定可以获取到
+     -->
+    <!-- 准备一个容器 -->
+    <div id="root">
+        <!-- v-show节点还存在只是样式上display:none隐藏  频繁使用优选v-show-->
+        <h2 v-show="true">{{name}}</h2>
+        <h2 v-show="1 === 1">{{name}}</h2>
+        <!-- 删除和创建节点 所以不利于频繁的使用 -->
+        <h2 v-if="true">{{name}}</h2>
+        <h2 v-if="n === 1">{{name}}</h2>
+        <h3 v-else-if="n === 2">Angular</h3>
+        <h3 v-else-if="n === 3">React</h3>
+        <h3 v-else>Vue</h3>
+        <button @click="n++">点我</button>
+
+        <!-- template只能配合v-if使用  因为template本身是不存在的所以更没有display的属性 -->
+        <template v-if="n===5">
+            <h4>Angular</h4>
+            <h4>React</h4>
+            <h4>Vue</h4>
+        </template>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: '#root',
+        data: {
+            name: '判断显示于隐藏',
+            n: 0
+        }
+    })
+</script>
+</html>

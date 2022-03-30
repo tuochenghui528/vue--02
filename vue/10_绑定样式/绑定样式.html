@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>绑定样式</title>
+    <script src="../js/vue.js"></script>
+</head>
+<style>
+    .basic {
+        width: 500px;
+        height: 100px;
+        border: 2px solid #ccc;
+    }
+    .normal {
+        background-color: aqua;
+    }
+    .sad {
+        background-color: black;
+    }
+    .style1 {
+        font-weight: 700;
+    }
+    .style2 {
+        font-size: 20px;
+    }
+    .style3 {
+        color: red;
+    }
+</style>
+<body>
+    <!-- 
+        绑定样式：
+            1.class样式
+                写法:class="xxx"  xxx可以是字符串、对象、数组。
+                    字符串写法适用于：类名不确定，要动态获取
+                    数组写法适用于：要绑定多个样式，个数不确定，名字也不确定
+                    对象写法使用于：要绑定多个样式，个数确定，名字也确定，但不确定用不用
+            2.style样式
+                :style="{fontSize: xxx}"其中xxx为动态值
+                ：style="[a,b]"其中a、b是样式对象
+     -->
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <!-- 绑定class样式--字符串写法，适用于：样式的类名不确定，需要动态指定 -->
+        <div class="basic" :class="mood" @click="changeMood">{{name}}</div><br/><br/>
+        <!-- 绑定class样式--数组写法，适用于：要绑定的样式个数不确定，样式也不确定 -->
+        <div class="basic" :class="classArr">{{name1}}</div><br/><br/>
+        <!-- 绑定class样式--对象写法，适用于：要帮定的样式个数确定，名字确定，但要动态决定用不用 -->
+        <div class="basic" :class="classObj">{{name2}}</div><br/><br/>
+        <!-- 绑定style样式--对象写法 -->
+        <div class="basic" :style="styleObj">{{name3}}</div><br/><br/>
+        <!-- 绑定style样式--数组写法 -->
+        <div class="basic" :style="styleArr">{{name3}}</div><br/><br/>
+    </div>
+</body>
+    <script>
+        new Vue({
+            el: '#root',
+            data: {
+                name: '字符串写法',
+                name1: '数组写法',
+                name2: '对象写法',
+                name3: 'style的对象写法',
+                mood: 'normal',
+                classArr: ['style1', 'style2', 'style3'],
+                classObj: {
+                    style1: false,
+                    style3: true
+                },
+                styleObj: {
+                    fontSize: '40px',
+                    background: 'red',
+                    color: 'blue'
+                },
+                styleArr: [
+                    {
+                        fontSize: '40px',
+                        background: 'red',
+                    },
+                    {
+                        color: 'yellow'
+                    }
+                ]
+            },
+            methods: {
+                changeMood() {
+                    this.mood = 'sad';
+                }
+            }
+        })
+    </script>
+</html>

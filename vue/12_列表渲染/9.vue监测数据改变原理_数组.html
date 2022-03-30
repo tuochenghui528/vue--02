@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue监测数据改变的原理——数组</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 准备一个容器 -->
+    <div id="root">
+        <h2>学生爱好</h2>
+        <button @click="changejiu">点我修改喝酒</button>
+        <ul>
+            <li v-for="(h, index) of hobby" :key="index">{{h}}</li>
+        </ul>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: '#root',
+        data: {
+            hobby: ['喝酒', '抽烟', '烫头']
+        },
+        methods: {
+            changejiu() {
+                // this.hobby[0] = '学习';//不奏效
+                this.hobby.splice(0, 1, '学习');//奏效
+                /**
+                 * 不奏效的原因是以数组下标修改的元素没有自己的setter和getter  所以没有响应式
+                 * 但是push  shift  unshift  splice  reverse sort pop 经过vue包裹后可以响应式
+                 * 包裹1.利用Array原型上的push  2.增加getter和setter响应式
+                */
+               Vue.set(this.hobby, 1, '打篮球');
+               this.$set(this.hobby, 2, '打台球');
+            }
+        }
+    })
+</script>
+</html>

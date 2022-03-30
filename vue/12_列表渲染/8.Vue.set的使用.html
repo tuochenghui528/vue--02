@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.set的使用</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 准备一个容器 -->
+    <div id="root">
+        <h1>学校信息</h1>
+        <button @click="addLeader">点击添加校长</button>
+        <h2>学校名称：{{student.name}}</h2>
+        <h2>学校地址：{{student.address}}</h2>
+        <h2 v-if="student.leader">校长：{{student.leader}}</h2>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: '#root',
+        data: {
+            student: {
+                name: '尚硅谷',
+                address: '北京'
+            }
+        },
+        methods: {
+            addLeader() {
+                // this.student.leader = 'tuotuo' //不生效 不是响应式 这样添加的没有数据劫持 没有相应的getter和setter
+
+                /**
+                 * 不能直接添加在data对象上
+                */
+                // Vue.set(this.student, 'leader', 'tuotuo');
+                this.$set(this.student, 'leader', 'tuotuo');
+            }
+            /**
+             * vm._data === data  在这之前利用observer构造函数的实例对象来监测data  vm._data = data = observer实例化对象
+             * 数据劫持observer构造对象中通过数据代理的getter和setter方法实现响应式处理 在通过数据代理将_data中的数据放在vm身上
+             * 方便开发使用
+            */
+        }
+    })
+</script>
+</html>
