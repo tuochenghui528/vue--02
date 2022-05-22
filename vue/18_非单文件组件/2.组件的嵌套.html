@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件的嵌套</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 准备一个容器 -->
+    <div id="root">
+        <app></app> 
+    </div>
+</body>
+<script>
+    //定义学生组件
+    const student = Vue.extend({
+        template: `
+            <div>
+                <h2>学生名称：{{name}}</h2>
+                <h2>学生年龄：{{age}}</h2>
+            </div>
+        `,
+        data() {
+            return {
+                name: '张三',
+                age: 18
+            }
+        }
+    });
+    //定义学校组件
+    const schoole = Vue.extend({
+        template: `
+            <div>
+                <h2>学校名称：{{name}}</h2>
+                <h2>学校地址：{{address}}</h2>
+                <student></student>
+            </div>
+        `,
+        data() {
+            return {
+                name: '清华',
+                address: '北京'
+            }
+        },
+        components: {
+            student
+        }
+    });
+    const app = Vue.extend({
+        template: `
+            <div>
+                <schoole></schoole>    
+            </div>
+        `,
+        components: {
+            schoole
+        }
+    });
+    
+    new Vue({
+        el: '#root',
+        components: {
+            app
+        }
+    })
+</script>
+</html>
